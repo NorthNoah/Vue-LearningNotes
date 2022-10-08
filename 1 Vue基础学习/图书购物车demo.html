@@ -1,0 +1,140 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 消除分界线中间空白 */
+        table {
+            border-collapse: collapse;
+
+        }
+
+        th {
+            background-color: #f5f5f5;
+        }
+
+        th,
+        td {
+            border: 1px solid #aaa;
+            padding: 8px 16px;
+
+        }
+        .active {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!--  1.在界面上以表格的形式，显示一些书籍的数据；
+ 2.在底部显示书籍的总价格；
+ 3.点击+或者-可以增加或减少书籍数量（如果为1，那么不能继续-）；
+ 4.点击移除按钮，可以将书籍移除（当所有的书籍移除完毕时，显示：购物车为空~-->
+
+    <div id="app">
+        <template v-if="this.books.length">
+            <table>
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>书籍名称</th>
+                        <th>出版日期</th>
+                        <th>价格</th>
+                        <th>购买数量</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                    <!-- 注意绑定key为id -->
+                    <tr @click="liClick(index)" v-for="(item, index) in books" :key="item.id">
+                        <td>{{ index + 1 }}</td>
+                        <td :class="{active: index === curIndex}">{{ item.name }}</td>
+                        <td>{{ item.date }}</td>
+                        <td>
+                            {{ "￥" + item.price }}
+                        </td>
+                        <td>
+                            <button :disabled="item.count <= 1"@click="decrease(index, item)">-</button>
+                            {{ item.count }}
+                            <button @click="increase(index, item)">+</button>
+                        </td>
+                        <td>
+                            <button @click="deleteBook(index, item)">移除</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2>总价：{{ totalPrice }}</h2>
+        </template>
+
+        <template v-else>
+            <h1>购物车为空，请添加喜欢的书籍~</h1>
+            <p>商场中有大量JOJO，请注意不要被咋瓦鲁多</p>
+        </template>
+       
+    </div>
+
+    <script src="./lib/vue.js"></script>
+    <script src="./lib/books.js"></script>
+    <script>
+        // 1.创建app
+        const app = Vue.createApp({
+            // data: option api
+            data: function () {
+                return {
+                    books: books,
+                    isShow: true,
+                    curIndex: -1
+                }
+            },
+            methods: {
+                // 抽取逻辑，￥
+                formatPrice(price) {
+                    return "￥" + price
+                },
+                increase(index, item) {
+                    // this.books[index].count++
+                    item.count++
+                },
+                decrease(index, item) {
+                    // this.books[index].count--
+                    item.count--
+                },
+                // 移除：移除的一定是数据库
+                deleteBook(index, item) {
+                    this.books.splice(index, 1)
+                },
+                // 监听当前的index
+                liClick(index) {
+                    this.curIndex = index
+                }
+
+
+            },
+            computed: {
+                totalPrice() {
+                    // 1.遍历books
+                    // let price = 0
+                    // for (const item of this.books) {
+                    //     price += item.count * item.price
+                    // }
+                    // return price
+
+                    // 2.reduce写法/注意第二个参数是初始值
+                    return this.books.reduce((prevalue, item) => {
+                        return prevalue + item.count * item.price
+                    }, 0)
+                }
+            }
+        })
+
+        // 2.挂载app
+        app.mount("#app")
+    </script>
+</body>
+
+</html>
