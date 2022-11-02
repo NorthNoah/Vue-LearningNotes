@@ -1,4 +1,3 @@
-<!-- 关键点:template;v-on 实现点按切换按钮，显示/隐藏图片-->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,36 +6,41 @@
   <title>Document</title>
   <style>
     img {
-      height: 200px;
       width: 200px;
+      height: 200px;
     }
   </style>
 </head>
 <body>
+
   <div id="app">
     <div>
       <button @click="toggle">切换</button>
     </div>
     
-    <!-- 用template包裹图片 -->
-    <template v-if="isShowImg">
+    <div v-show="isShowCode">
       <img src="https://game.gtimg.cn/images/yxzj/web201706/images/comm/floatwindow/wzry_qrcode.jpg" alt="">
-    </template>
+    </div>
+
+    <div v-if="isShowCode">
+      <img src="https://game.gtimg.cn/images/yxzj/web201706/images/comm/floatwindow/wzry_qrcode.jpg" alt="">
+    </div>
   </div>
   
-  <script src="./lib/vue.js"></script>
+  <script src="../lib/vue.js"></script>
   <script>
     // 1.创建app
     const app = Vue.createApp({
       // data: option api
       data() {
         return {
-          isShowImg: true
+          isShowCode: true
         }
       },
+
       methods: {
         toggle() {
-          this.isShowImg = !this.isShowImg
+          this.isShowCode = !this.isShowCode
         }
       }
     })
