@@ -3,4 +3,13 @@
 }
 body {
     font-size: 14px;
+    height: 100%;
+    --van-search-left-icon-color: var(--primary-color)
+}
+.topPage {
+    position: relative;
+    z-index: 999;
+    height: 100vh;
+    background-color: #fff;
+    overflow-y: auto;
 }
