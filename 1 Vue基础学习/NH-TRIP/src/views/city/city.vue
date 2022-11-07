@@ -1,3 +1,23 @@
+<script setup>
+    import { ref } from "vue";
+    import { useRouter } from "vue-router";
+    import getCityAll from "@/service/modules/city";
+    const cityValue = ref("")
+    const router = useRouter()
+    const cancelClick = () => {
+        router.back()
+    }
+
+    const allCity = ref()
+    getCityAll().then(res => {
+        allCity.value = res.data
+    })
+
+
+    
+</script>
+
+
 <template>
     <div class="city topPage">
         <van-search 
@@ -14,18 +34,6 @@
         </van-tabs>
     </div>
 </template>
-
-<script setup>
-    import { ref } from "vue";
-    import { useRouter } from "vue-router";
-    const cityValue = ref("")
-    const router = useRouter()
-    const cancelClick = () => {
-        router.back()
-    }
-
-
-</script>
 
 <style lang="less" scoped>
     
