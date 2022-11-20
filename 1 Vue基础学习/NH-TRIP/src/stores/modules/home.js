@@ -1,20 +1,17 @@
 
 import { defineStore } from "pinia";
-import getCityAll from "@/service/modules/city";
-const useCityStore = defineStore("city", {
+import getSuggestCityAll from "@/service/modules/home";
+const useHomeStore = defineStore("home", {
     state: () => ({
-        allCities: [],
+        suggestCities: [],
+        categories: []
         // 注意是对象形式
-        curCity: {
-            cityName: "广州"
-        }
-        
     }),
     actions: {
-        async fetchAllCitys() {
-            const res = await getCityAll()
-            this.allCities = res.data
+        async fetchSuggestData() {
+            const res = await getSuggestCityAll()
+            this.suggestCities = res.data
         }
     }
 })
-export default useCityStore
+export default useHomeStore

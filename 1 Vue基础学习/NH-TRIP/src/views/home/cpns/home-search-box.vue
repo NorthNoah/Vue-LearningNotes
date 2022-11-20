@@ -48,11 +48,10 @@
 
 
         <!-- 热门建议 -->
-        <div class="hot-suggest section">
-            <template v-for="(item, index) in suggestData" :key="index">
+        <div class="section hot-suggest">
+            <template v-for="(item, index) in suggestCities" :key="index">
                 <div 
                     class="item"
-                    :style="{ color: item.tagText.color, backgroud: item.tagText.backgroud.color }"
                 >
                     {{ item.tagText.text }}
                 </div>
@@ -69,6 +68,7 @@
     import { storeToRefs } from "pinia";
     import { useRouter } from "vue-router";
     import useCityStore from "@/stores/modules/city";
+    import useHomeStore from "@/stores/modules/home";
     import { formatMonthDay, getDaysDiff } from "@/utils/date-format";
     const positionClick = () => {
         navigator.geolocation.getCurrentPosition((res) => {
@@ -77,6 +77,7 @@
             console.log("位置获取失败", err)
         })
     }
+    
     const router = useRouter()
     const chooseCity = () => {
         router.push("/city")
@@ -108,17 +109,16 @@
         showCalender.value = false 
     }
 
-
-    // 定义父组件传来的参数
-    defineProps({
-        suggestData: {
-            type: Array,
-            default: () => []
-        }
-    })
-
-
-
+    // 获取推荐城市数据
+     // 定义父组件传来的参数
+    // defineProps({
+    //     suggestData: {
+    //         type: Array,
+    //         default: () => []
+    //     }
+    // })
+    const homeStore = useHomeStore()
+    const { suggestCities } =  storeToRefs(homeStore)
 </script>
 
 <style lang="less" scoped>
@@ -185,8 +185,16 @@
        
     }
     .hot-suggest {
+        margin: 10px 0;
+        justify-content: left;
         .item {
-            padding: 3px 5px;
+            padding: 3px 8px;
+            margin: 4px;
+            background-color: #F1F3F5;
+            border-radius: 14px;
+            font-size: 12px;
+            color: #3F4954;
+            line-height: 1;
         }
     }
    
