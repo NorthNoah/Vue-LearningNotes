@@ -25,9 +25,8 @@
     cityStore.fetchAllCitys()
     // 防止解构后失去响应式
     const { allCities } = storeToRefs(cityStore)
-
     const curGroup = computed(() => allCities.value[tabActive.value])
-
+    
 </script>
 
 
@@ -47,13 +46,16 @@
             </template>
         </van-tabs>
 
-
         <div class="content">
-            <city-group :groupData="curGroup"></city-group>
+            <!-- <city-group :groupData="curGroup"></city-group> -->
+            <template v-for="(item, key, index) in allCities" :key="index">
+                <city-group v-show="tabActive === key" :groupData="curGroup"></city-group>
+            </template>
         </div>
     </div>
 </template>
 
 <style lang="less" scoped>
+
     
 </style>
