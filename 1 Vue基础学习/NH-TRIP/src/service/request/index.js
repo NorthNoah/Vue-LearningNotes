@@ -1,11 +1,40 @@
 import axios from "axios";
 import { BASE_URL, TIMEOUT } from "./config";
+import useMainStore from "@/stores/modules/main";
+const mainStore = useMainStore()
+
 class YXRequest {
     constructor(baseURL, timeout) {
+        // 此处的this.instance即为axios的实例
         this.instance = axios.create({
             baseURL,
             timeout
         })
+
+        // 给实例添加拦截器
+        // 请求拦截器
+        this.instance.interceptors.request.use(config => {
+            // 开始进行网络请求，显示loading
+            mainStore.isLoading = true
+            return config
+        }, err => {
+            // 若网络请求发送失败，则无必要进行显示
+            return err
+        })
+
+
+        // 响应拦截器
+        this.instance.interceptors.response.use(config => {
+            // 返回响应成功，消除loading
+            mainStore.isLoading = false
+            return config
+        }, err => {
+            // 若网络响应失败，仍然需要消除loading
+            mainStore.isLoading = false
+            return err
+        })
+
+
     }
 
     request(config) {
