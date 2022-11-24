@@ -57,6 +57,11 @@
                 </div>
              </template>           
         </div>
+
+        <!-- 搜索-->
+        <div class="section search-btn">
+            <button class="btn" @click="buttonClick">开始搜索</button>
+        </div>
     </div>
 
 
@@ -119,6 +124,19 @@
     // })
     const homeStore = useHomeStore()
     const { suggestCities } =  storeToRefs(homeStore)
+
+    // button搜索
+    const buttonClick = () => {
+        router.push({
+            path: "/search",
+            // 传递参数到$route中
+            query: {
+                startDate: startDate.value,
+                endDate: endDate.value,
+                curCity: curCity.value.cityName
+            }
+        })
+    }
 </script>
 
 <style lang="less" scoped>
@@ -187,6 +205,7 @@
     .hot-suggest {
         margin: 10px 0;
         justify-content: left;
+        height: auto;
         .item {
             padding: 3px 8px;
             margin: 4px;
@@ -195,6 +214,21 @@
             font-size: 12px;
             color: #3F4954;
             line-height: 1;
+        }
+    }
+    .search-btn {
+        .btn {
+            width: 342px;
+            height: 38px;
+            max-height: 50px;
+            font-weight: 500;
+            font-size: 18px;
+            //line-height: 38px;
+            text-align: center;
+            border-radius: 20px;
+            border-color: var(--primary-color);
+            color: #fff;
+            background-image: var(--theme-linear-gradient);
         }
     }
    
