@@ -5,8 +5,8 @@
         </div>
         <div class="list">
             <template v-for="(item, index) in houselist" :key="item.data.houseId">
-                <h3 v-if="item.discoveryContentType === 9">type-9: {{ item.data.houseName }} </h3>
-                <h3 v-else-if="item.discoveryContentType === 3">type-3: {{ item.data.houseName }} </h3>
+                <house-item-v3 v-if="item.discoveryContentType === 3" :itemData="item.data"></house-item-v3>
+                <house-item-v9 v-else-if="item.discoveryContentType === 9" :itemData="item.data"></house-item-v9>
             </template>
         </div>
     </div>
@@ -14,6 +14,8 @@
 
 <script setup>
     import useHomeStore from '@/stores/modules/home';
+    import HouseItemV3 from "@/components/house-item-v3/house-item-v3.vue";
+    import HouseItemV9  from "@/components/house-item-v9/house-item-v9.vue";
     import { storeToRefs } from 'pinia';
     const homeStore = useHomeStore()
     const { houselist } = storeToRefs(homeStore)
@@ -27,5 +29,11 @@
             font-size: 14px;
             padding: 10px;
         }
+
+        .list {
+            display: flex;
+            flex-wrap: wrap;
+        }
     }
+    
 </style>
