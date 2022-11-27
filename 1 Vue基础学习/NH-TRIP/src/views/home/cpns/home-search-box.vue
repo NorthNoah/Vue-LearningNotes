@@ -14,7 +14,7 @@
             <div class="start">
                 <div class="date">
                     <div class="tip">入住</div>
-                    <div class="time">{{ startDate }}</div>
+                    <div class="time">{{ startDateStr }}</div>
                 </div>
                
             </div>
@@ -24,7 +24,7 @@
             <div class="end">
                 <div class="date">
                     <div class="tip">离店</div>
-                    <div class="time">{{ endDate }}</div>
+                    <div class="time">{{ endDateStr }}</div>
                 </div>
             </div>
         </div>
@@ -69,12 +69,13 @@
 </template>
 
 <script setup>
-    import { ref } from "vue";
+    import { ref, computed } from "vue";
     import { storeToRefs } from "pinia";
     import { useRouter } from "vue-router";
     import useCityStore from "@/stores/modules/city";
     import useHomeStore from "@/stores/modules/home";
     import { formatMonthDay, getDaysDiff } from "@/utils/date-format";
+    import useMainStore from "@/stores/modules/main";
     const positionClick = () => {
         navigator.geolocation.getCurrentPosition((res) => {
             console.log("已经获取成功", res)
@@ -95,22 +96,28 @@
     
     // 日历
     const showCalender = ref(false)
-    // 现在时间，未来时间
-    const nowDate = new Date()
-    const newDate = nowDate.setDate(nowDate.getDate() + 1)
-    // 格式化
-    const startDate = ref(formatMonthDay(nowDate))
-    const endDate = ref(formatMonthDay(newDate))
+
+    // 从mainStore中取出时间
+    const mainStore = useMainStore()
+    const { startDate, endDate } = storeToRefs(mainStore)
+
+    // 格式化，注意此时使用计算属性来包裹
+    // const startDateStr = ref(formatMonthDay(nowDate))
+    // const endDateStr = ref(formatMonthDay(newDate))
+    const startDateStr = computed(() => formatMonthDay(startDate.value))
+    const endDateStr = computed(() => formatMonthDay(endDate.value))
 
     // 时间差
-    const diffDays = ref(getDaysDiff(newDate, nowDate))
+    const diffDays = ref(getDaysDiff(startDate.value, endDate.value))
 
     const onConfirm = (values) => {
-        const [start,end] = values
-        // 注意赋值必须都是赋给value
-        startDate.value = formatMonthDay(start)
-        endDate.value = formatMonthDay(end)
+        const [start, end] = values
+        // 此处要将结果更新到store中的state里
+        // 此处无需格式化，computed会自动进行格式化计算操作
+        mainStore.startDate = start
+        mainStore.endDate = end
         diffDays.value = getDaysDiff(start, end)
+        console.log(start, end)
         showCalender.value = false 
     }
 

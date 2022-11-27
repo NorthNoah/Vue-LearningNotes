@@ -1,11 +1,12 @@
 <template>
-    <div class="detail">
+    <div class="detail topPage">
         <van-nav-bar
-            title="房屋详情"
-            left-text="旅途"
-            left-arrow
-            @click-left="onClickLeft"
+        title="房屋详情"
+        left-text="旅途"
+        left-arrow
+        @click-left="onClickLeft"
         />
+        <h2>detail: {{ $route.params.id }}</h2>
     </div>
 </template>
 
@@ -16,6 +17,7 @@
     const router = useRouter()
     const route = useRoute()
     const homeId = route.params.id
+    console.log(homeId)
 
     // 在页面内管理数据，返回promise后用then回调函数
     const detailInfos = ref({})
@@ -29,6 +31,7 @@
     const onClickLeft = () => {
         router.back()
     }
+
 </script>
 
 <style lang="less" scoped>

@@ -6,3 +6,8 @@ export const formatMonthDay = (date) => {
 export const getDaysDiff = (start, end) => {
     return dayjs(end).diff(start, 'day')
 }
+
+export const formatMonthDotDay = date => {
+    let month = dayjs(date).month() + 1
+    return month + "." + dayjs(date).date()
+}
