@@ -5,8 +5,17 @@
         </div>
         <div class="list">
             <template v-for="(item, index) in houselist" :key="item.data.houseId">
-                <house-item-v3 v-if="item.discoveryContentType === 3" :itemData="item.data"></house-item-v3>
-                <house-item-v9 v-else-if="item.discoveryContentType === 9" :itemData="item.data"></house-item-v9>
+                <house-item-v3 
+                    v-if="item.discoveryContentType === 3" 
+                    :itemData="item.data"
+                    @click="itemClick(item.data)">
+                </house-item-v3>
+                <house-item-v9 
+                    v-else-if="item.discoveryContentType === 9" 
+                    :itemData="item.data"
+                    @click="itemClick(item.data)"
+                    >
+                </house-item-v9>
             </template>
         </div>
     </div>
@@ -19,7 +28,12 @@
     import { storeToRefs } from 'pinia';
     const homeStore = useHomeStore()
     const { houselist } = storeToRefs(homeStore)
+    
 
+    const itemClick = item => {
+        console.log("itemClick:", item.houseId)
+        
+    }
 </script>
 
 <style lang="less" scoped>

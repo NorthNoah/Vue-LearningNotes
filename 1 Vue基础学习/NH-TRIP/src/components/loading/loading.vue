@@ -36,7 +36,7 @@
 
         img {
             height: 70px;
-            weight: 70px;
+            width: 70px;
         }
     }
     
