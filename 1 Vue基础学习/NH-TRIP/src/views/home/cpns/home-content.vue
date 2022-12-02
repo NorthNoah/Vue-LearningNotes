@@ -8,14 +8,13 @@
                 <house-item-v3 
                     v-if="item.discoveryContentType === 3" 
                     :itemData="item.data"
-                    @click="itemClick(item.data)"
-                >
+                    @click="itemClick(item.data)">
+
                 </house-item-v3>
                 <house-item-v9 
                     v-else-if="item.discoveryContentType === 9" 
                     :itemData="item.data"
-                    @click="itemClick(item.data)"
-                >
+                    @click="itemClick(item.data)">
                 </house-item-v9>
             </template>
         </div>

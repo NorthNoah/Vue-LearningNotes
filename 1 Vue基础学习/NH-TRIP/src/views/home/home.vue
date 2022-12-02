@@ -76,11 +76,11 @@
     // watch(scrollTop, newVal => {
     //     isShowSearchBar.value = newVal > 100
     // })
-    
     // computed写法
     const isShowSearchBar = computed(() => {
         return scrollTop.value >= 350
     })
+
 </script>
 
 <style lang="less" scoped>
