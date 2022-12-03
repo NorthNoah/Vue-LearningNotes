@@ -49,7 +49,6 @@
     valueArray.push(item)
     }
 
-    console.log(swipeGroup)
 
     // 转换数据的格式
     const nameReg = /【(.*?)】/i
@@ -63,8 +62,6 @@
         const valueArray = swipeGroup[item.enumPictureCategory]
         return valueArray.findIndex(data => data === item) + 1
     }
-
-
 
 
 
