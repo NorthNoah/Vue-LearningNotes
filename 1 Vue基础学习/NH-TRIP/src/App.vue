@@ -8,7 +8,9 @@
 
 <template>
     <div class="app">
-        <router-view></router-view>
+        <keep-alive include="home"> 
+            <router-view></router-view>
+        </keep-alive>
         <!-- <tab-bar v-if="!route.meta.hideTabBar"></tab-bar> -->
         <tab-bar></tab-bar>
         <loading></loading>

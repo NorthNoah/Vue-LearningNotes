@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-    import { ref, computed } from "vue";
+    import { ref, computed, watch } from "vue";
     import { useRoute, useRouter } from "vue-router";
     import getDetailInfos from "@/service/modules/detail";
     import DetailNav from "./cpns/detail_01-nav.vue";
@@ -80,20 +80,61 @@
         if (!value) return
         const name = value.$el.getAttribute("name")
         sectionEls.value[name] = value.$el
-        console.log(sectionEls.value[name])
     }
 
+
+    let isClick = false
+    let curDistance = -1
     //const landlordRef = ref()
     const tabClick = () => {
         const key = Object.keys(sectionEls.value)[activeTab.value]
-        console.log(key)
         const el = sectionEls.value[key]
+        let distance = el.offsetTop - 44
+        
+        // 事件为点击
+        isClick = true
+        // 设置当前距离为实际滚动distance
+        curDistance = distance
+        console.log(curDistance)
+
         detailRef.value.scrollTo({
             // top: sectionEls[activeTab.value]?.offsetTop - 44,
-            top: el.offsetTop - 44,
+            top: distance,
             behavior: "smooth"
         })
+
+        
     }
+
+    // 滚动距离匹配标签切换
+    watch(scrollTop, (newVal) => {
+        console.log(newVal)
+        // 当前滚动距离到达标签需要滚动的距离，则一次点击事件的跳转操作结束
+        if (newVal === curDistance) {
+            isClick = false
+        }
+        console.log(isClick)
+        // 若此时为点击切换模式，则无需匹配
+        if (isClick) {
+            return
+        }
+        // 获取所有els
+        const els = Object.values(sectionEls.value)
+        // 获取每个组件的offsetTop
+        const values = els.map(el => el.offsetTop - 88)
+
+        // 匹配
+        // 默认指针在最右
+        let index = values.length - 1
+        for (let i = 0; i < values.length; i++) {
+            if (values[i] > newVal) {
+                index = i - 1; 
+                break;
+            }
+        }
+
+        activeTab.value = index
+    })
 </script>
 
 <style lang="less" scoped>

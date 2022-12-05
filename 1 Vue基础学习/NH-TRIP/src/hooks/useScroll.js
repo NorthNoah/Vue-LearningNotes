@@ -17,7 +17,6 @@ export default function useScroll(elRef) {
             scrollTop.value = document.documentElement.scrollTop
             // 总高度
             scrollHeight.value = document.documentElement.scrollHeight
-            console.log(clientHeight, scrollHeight, scrollHeight)
         } else {
             // 此时el不为整个window，为元素
             clientHeight.value = el.clientHeight

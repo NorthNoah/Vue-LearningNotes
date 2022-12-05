@@ -13,6 +13,11 @@
     </div>
     
 </template>
+<script>
+    export default {
+        name: "home"
+    }
+</script>
 
 <script setup>
     import { watch, ref, computed } from "vue";
