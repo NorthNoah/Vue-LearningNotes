@@ -8,9 +8,18 @@
 
 <template>
     <div class="app">
-        <keep-alive include="home"> 
+        <!-- 原来写法 -->
+        <!-- <keep-alive include="home"> 
             <router-view></router-view>
-        </keep-alive>
+        </keep-alive> -->
+
+        <!-- 新写法:slot -->
+        <router-view v-slot="{ Component }">
+            <keep-alive include="home">
+                <component :is="Component"></component>
+            </keep-alive>
+        </router-view>
+
         <!-- <tab-bar v-if="!route.meta.hideTabBar"></tab-bar> -->
         <tab-bar></tab-bar>
         <loading></loading>

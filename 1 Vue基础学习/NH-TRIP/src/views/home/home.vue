@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div class="home" ref="homeRef">
         <home-nav></home-nav>
         <div class="banner">
             <img src="@/assets/img/home/banner.webp" alt="">
@@ -20,7 +20,7 @@
 </script>
 
 <script setup>
-    import { watch, ref, computed } from "vue";
+    import { watch, ref, computed, onActivated } from "vue";
     import HomeNav from "./cpns/home-nav-bar.vue";
     import HomeSearchBox from "./cpns/home-search-box.vue";
     import useHomeStore from "@/stores/modules/home";
@@ -63,9 +63,10 @@
     //         homeStore.fetchHouselistData()
     //     }
     // })
-    
+
+    const homeRef = ref()
     // 监听滚动到底部
-    const { isReachBottom, scrollTop } = useScroll()
+    const { isReachBottom, scrollTop } = useScroll(homeRef)
     // watch flag变量的改变，一旦为true则发送新的网络请求；
     // 当网络请求发送成功后，回调函数将flag重置为false
     watch(isReachBottom, (newVal) => {
@@ -86,10 +87,21 @@
         return scrollTop.value >= 350
     })
 
+
+    //  回到页面时恢复原来位置
+    onActivated(() => {
+        homeRef.value?.scrollTo({
+            top: scrollTop.value
+        })
+    })
+
 </script>
 
 <style lang="less" scoped>
     .home {
+        height: 100vh;
+        overflow: auto;
+        box-sizing: border-box;
         padding-bottom: 60px;
     }
     .banner {
